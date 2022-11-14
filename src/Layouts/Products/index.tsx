@@ -28,13 +28,15 @@ function Product() {
     const header = ["Dessert", "Calories", "Fat", "Carbs", "Protein"]
     return (
         <>
-            {/* <CustomTable data={[{
-                key: header,
+            <CustomTable data={[{
                 name: "Product",
-                age: 12
+                calories: 12,
+                fat: 22,
+                carbs: 11,
+                protein: 4
             }]}
-                columns={header} key={'name'} /> */}
-            <CustomTable
+                columns={header} />
+            {/* <CustomTable
                 header={["Dessert", "Calories", "Fat", "Carbs", "Protein"]}
                 data={[{
                     name: "Product",
@@ -46,7 +48,7 @@ function Product() {
                 onClickView={(name: string) => {
                     console.log(name)
                 }} 
-                />
+                /> */}
 
 
         </>

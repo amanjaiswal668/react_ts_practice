@@ -28,76 +28,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-interface ICustomTableProductProps {
-    header: string[]
-    data: [{
-        [key: string]: React.ReactNode,
-        name: string,
-        calories: number,
-        fat: number,
-        carbs: number,
-        protein: number
-    }]
-    onClickView: (name: string) => void
-}
-interface ICustomTableUserProps<T> {
-    header: string[]
-    data: [{
-        [key: string]: React.ReactNode,
-        name: string,
-        calories: number,
-        fat: number,
-        carbs: number,
-        protein: number
-    }]
-    onClickView: (name: string) => void
-}
-interface ColumnDefinitionType<T> {
-    header: string[];
-    // data: [{
-    //     [key: string]: React.ReactNode,
-    //     name: string,
-    //     calories: number,
-    //     fat: number,
-    //     carbs: number,
-    //     protein: number
-    // }]
-}
-
-interface KeyProps {
-    [key: string]: Record<string, any>
-}
-
 interface TableProps<T> {
-    // key: keyof T
-    // [key: string]: React.ReactNode;
-    // data: Array<T>;
-    data:T[];
-    // columns: Array<ColumnDefinitionType<T, K>>;
+    data: T[];
     columns: string[];
 }
 
-// function CustomTable<T extends object, K extends keyof T>({data, columns}: TableProps<T>) {
-function CustomTable<T extends object, K extends keyof T>({data, header}: ICustomTableUserProps<T>) {
+function CustomTable<T extends object>({ data, columns }: TableProps<T>) {
 
-    console.log(data);
     function objectKeys<T extends {} | any>() {
         return Object.keys(data[0]) as unknown as keyof T
     }
-    // const column : [keyof KeyProps] = Object.keys(props.data[0]) as [keyof KeyProps];
-    // const column : [keyof KeyProps] = Object.keys(props.data[0]) as [keyof KeyProps];
-    const column: (keyof KeyProps)[] = objectKeys();
-    console.log(column)
+    const column: (keyof TableProps<T>)[] = objectKeys();
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <StyledTableRow>
                         {
-                            header.map((columnData, index) => {
+                            columns.map((columnData, index) => {
                                 return (
 
-                                    <StyledTableCell align="center">{columnData}</StyledTableCell>
+                                    <StyledTableCell key={index} align="center">{columnData}</StyledTableCell>
                                 )
                             })
                         }
@@ -105,27 +56,15 @@ function CustomTable<T extends object, K extends keyof T>({data, header}: ICusto
                 </TableHead>
                 <TableBody>
                     {
-                        data.map((row) => (
-                            <TableRow>
+                        data.map((row: any) => (
+                            <StyledTableRow key={row.name}>
                                 {
-                                    column.map((v: string | number) => {
+                                    column.map((v: any) => {
                                         console.log(v)
-                                        return <StyledTableCell>{row[v]}</StyledTableCell>
-                                        // return <StyledTableCell>ab</StyledTableCell>
+                                        return <StyledTableCell align="center">{row[v]}</StyledTableCell>
                                     })
                                 }
-                            </TableRow>
-
-                            // <StyledTableRow key={row.name}>
-                            //     <StyledTableCell component="th" scope="row" align="center">
-                            //         {row.name}
-                            //     </StyledTableCell>
-                            //     <StyledTableCell align="center">{row.calories}</StyledTableCell>
-                            //     <StyledTableCell align="center">{row.fat}</StyledTableCell>
-                            //     <StyledTableCell align="center">{row.carbs}</StyledTableCell>
-                            //     <StyledTableCell align="center">{row.protein}</StyledTableCell>
-                            // </StyledTableRow>
-
+                            </StyledTableRow>
                         ))}
                 </TableBody>
             </Table>

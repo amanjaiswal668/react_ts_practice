@@ -25,19 +25,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 function User() {
-    const header = ["Dessert", "Calories", "Fat", "Carbs", "Protein"]
+    const header = ["Name", "Age"]
     return (
         <>
-            {/* <CustomTable data={[{
-                key : header,
+            <CustomTable data={[{
                 name: "User",
-                calories: 12,
-                fat: 22,
-                carbs: 11,
-                protein: 4
+                age : 22
             }]}
-            columns={header}  /> */}
-            <CustomTable
+            columns={header}/>
+            {/* <CustomTable
                 header={["Dessert", "Calories", "Fat", "Carbs", "Protein"]}
                 data={[{
                     name: "User",
@@ -49,7 +45,7 @@ function User() {
                 onClickView={(name: string) => {
                     console.log(name)
                 }}
-            />
+            /> */}
 
 
         </>
