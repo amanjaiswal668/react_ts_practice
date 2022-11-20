@@ -7,6 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { IconButton } from '@mui/material';
+
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -29,11 +32,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 interface TableProps<T> {
+    children ?: any,
     data: T[];
     columns: string[];
+    onClickView?: (...args : any[]) => {} | void
+    onClickEdit?: () => {} | void
+    onClickDelete: (id: any) => any
 }
 
-function CustomTable<T extends object>({ data, columns }: TableProps<T>) {
+function CustomTable<T extends object>({ data, columns, onClickView, onClickEdit, onClickDelete }: TableProps<T>) {
 
     function objectKeys<T extends {} | any>() {
         return Object.keys(data[0]) as unknown as keyof T
@@ -56,12 +63,30 @@ function CustomTable<T extends object>({ data, columns }: TableProps<T>) {
                 </TableHead>
                 <TableBody>
                     {
-                        data.map((row: any) => (
-                            <StyledTableRow key={row.name}>
+                        data.map((row: any, id) => (
+                            // <StyledTableRow key={row.name} onClick = {() => row["view"](row["age"])}> 
+                            <StyledTableRow key={row.name}> 
                                 {
-                                    column.map((v: any) => {
-                                        console.log(v)
-                                        return <StyledTableCell align="center">{row[v]}</StyledTableCell>
+                                    columns.map((v: any, index: number) => {
+                                        console.log(row[index])
+
+                                        // return <StyledTableCell align="center">{row[v]}</StyledTableCell>
+
+                                        if (columns[index] === "view") {
+                                            // return <StyledTableCell align="center" onClick={onClickView(row["age"])}><VisibilityIcon/></StyledTableCell>
+                                            return <StyledTableCell align="center" onClick={() => onClickView?.(row["id"])}><VisibilityIcon/></StyledTableCell>
+                                        }
+                                        else if (columns[index] === "edit") {
+                                            return <StyledTableCell align="center" onClick={onClickEdit}>Edit</StyledTableCell>
+                                        }
+                                        else if (columns[index] === "delete") {
+                                            return <StyledTableCell align="center" onClick={() => onClickDelete(row["id"])}>Delete</StyledTableCell>
+                                        }
+                                        else {
+                                            return <StyledTableCell align="center">{row[v]}</StyledTableCell>
+
+                                        }
+
                                     })
                                 }
                             </StyledTableRow>

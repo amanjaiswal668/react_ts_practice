@@ -1,53 +1,33 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
 import CustomTable from '../../components/CustomTable';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
-}));
-
 function User() {
-    const header = ["Name", "Age"]
+    const header = ["name", "age", "some", "delete"]
+    const temp = (id: any) => {
+        alert("Your id is :- " + id)
+    }
     return (
         <>
-            <CustomTable data={[{
-                name: "User",
-                age : 22
-            }]}
-            columns={header}/>
-            {/* <CustomTable
-                header={["Dessert", "Calories", "Fat", "Carbs", "Protein"]}
-                data={[{
-                    name: "User",
-                    calories: 12,
-                    fat: 22,
-                    carbs: 11,
-                    protein: 4
-                }]}
-                onClickView={(name: string) => {
-                    console.log(name)
-                }}
-            /> */}
+            <CustomTable data={
+                [{
+                    id : 1,
+                    name: "User 1",
+                    age: 22,
+                    some: 11
+                },
+                {
+                    id : 2,
+                    name: "User 2",
+                    age: 20,
+                    some: 8
+                },
+                ]}
 
-
+                onClickView={() => { return console.log("Hello User view page"); }}
+                onClickEdit={() => { return console.log("Hello User edit page"); }}
+                // onClickDelete={(id : any) => { return console.log("Hello User delete page" + id); }}
+                onClickDelete={(id: any) => temp(id)}
+                columns={header} />
         </>
     );
 }

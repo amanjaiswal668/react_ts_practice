@@ -1,56 +1,56 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
 import CustomTable from '../../components/CustomTable';
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
-}));
+// import {VisibilityIcon} from '@mui/icons-material/Visibility';
+import { IconButton } from '@mui/material';
+import FormDialog from '../../components/CustomModal';
+import { useState } from 'react';
 
 function Product() {
-    const header = ["Dessert", "Calories", "Fat", "Carbs", "Protein"]
+    const header = ["Dessert", "Calories", "Fat", "Carbs", "view", "edit", "delete"];
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [currentId, setCurrentId] = useState(-1);
+    const done = (id: number) => {
+        // event.preventDefault();
+        console.log(id)
+        setCurrentId(id);
+        handleClickOpen();
+        return 1 + 1;
+    }
+    const test = (id: number) => {
+        console.log(id)
+        setCurrentId(id);
+        handleClickOpen();
+        return 1 + 1;
+    }
+
+    const handleClickOpen = () => {
+        setOpenModal(true);
+    };
+
+    const handleClose = () => {
+        setOpenModal(false);
+    };
     return (
         <>
             <CustomTable data={[{
-                name: "Product",
-                calories: 12,
-                fat: 22,
-                carbs: 11,
-                protein: 4
+                id: 1,
+                Dessert: "Product",
+                Calories: 12,
+                Fat: 22,
+                Carbs: 11
+
             }]}
-                columns={header} />
-            {/* <CustomTable
-                header={["Dessert", "Calories", "Fat", "Carbs", "Protein"]}
-                data={[{
-                    name: "Product",
-                    calories: 12,
-                    fat: 22,
-                    carbs: 11,
-                    protein: 4
-                }]} 
-                onClickView={(name: string) => {
-                    console.log(name)
-                }} 
-                /> */}
-
-
+                onClickView={(id: number) => test(id)}
+                onClickEdit={() => { return console.log("Hello Product edit page"); }}
+                onClickDelete={() => { return console.log("Hello Product delete page"); }}
+                columns={header} >
+                    
+                </CustomTable>
+            {
+                openModal &&
+                <FormDialog isSetOpen={openModal} isSetClose={handleClose} id={currentId}
+                    onClick={(id:number) => done(id)} />
+            }
         </>
     );
 }
